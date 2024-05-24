@@ -1,4 +1,4 @@
-# infraestru# Infraestructure As Code - IaC
+# Infraestructure As Code - IaC :rocket:
 
 in this repository, we work with infrastructure as code on a kubernetes cluster on AWS, we use two methods: terraform and cloudformation.
 
