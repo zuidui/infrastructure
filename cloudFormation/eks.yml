@@ -1,0 +1,71 @@
+apiVersion: eksctl.io/v1alpha5
+availabilityZones:
+- us-east-1a
+- us-east-1b
+cloudWatch:
+  clusterLogging: {}
+iam:
+  vpcResourceControllerPolicy: true
+  withOIDC: false
+kind: ClusterConfig
+kubernetesNetworkConfig:
+  ipFamily: IPv4
+managedNodeGroups:
+- amiFamily: AmazonLinux2
+  desiredCapacity: 2                  #number of nodes
+  disableIMDSv1: true
+  disablePodIMDS: false
+  iam:
+    withAddonPolicies:
+      albIngress: false
+      appMesh: false
+      appMeshPreview: false
+      autoScaler: false
+      awsLoadBalancerController: false
+      certManager: false
+      cloudWatch: false
+      ebs: false
+      efs: false
+      externalDNS: false
+      fsx: false
+      imageBuilder: false
+      xRay: false
+  instanceSelector: {}
+  instanceType: t3.medium             #tipo de instancia
+  labels:
+    alpha.eksctl.io/cluster-name: jgl-cluster  #cluster name
+    alpha.eksctl.io/nodegroup-name: ng-82552396
+  maxSize: 2                          #autoscaling, hasta cuantas instancias puede levnatar
+  minSize: 2                          #numero de instancias levantadas minimas
+  name: ng-82552396
+  privateNetworking: false
+  releaseVersion: ""
+  securityGroups:
+    withLocal: null
+    withShared: null
+  ssh:
+    allow: false
+    publicKeyPath: ""
+  tags:
+    alpha.eksctl.io/nodegroup-name: ng-82552396
+    alpha.eksctl.io/nodegroup-type: managed
+  volumeIOPS: 3000
+  volumeSize: 40                      #capacidad de la instancia en Gb
+  volumeThroughput: 125
+  volumeType: gp3
+metadata:
+  name: jgl-cluster              #cluster name
+  region: us-east-1
+  version: "1.27"
+privateCluster:
+  enabled: false
+  skipEndpointCreation: false
+vpc:
+  autoAllocateIPv6: false
+  cidr: 192.168.0.0/16
+  clusterEndpoints:
+    privateAccess: false
+    publicAccess: true
+  manageSharedNodeSecurityGroupRules: true
+  nat:
+    gateway: Single
