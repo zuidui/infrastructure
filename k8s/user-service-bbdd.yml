@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-bbdd-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-bbdd
+  template:
+    metadata:
+      labels:
+        app: user-bbdd
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "tu_contraseña"
+        - name: MYSQL_DATABASE
+          value: "usuarios"
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-bbdd-service
+spec:
+  selector:
+    app: user-bbdd
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP
