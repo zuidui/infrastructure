@@ -13,22 +13,24 @@ spec:
         app: user-bbdd
     spec:
       containers:
-      - name: mysql
-        image: mysql:5.7
+      - name: postgres
+        image: postgres:13
         ports:
-        - containerPort: 3306
+        - containerPort: 5432
         env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: "tu_contraseña"
-        - name: MYSQL_DATABASE
-          value: "usuarios"
+        - name: POSTGRES_USER
+          value: admin
+        - name: POSTGRES_PASSWORD
+          value: admin
+        - name: POSTGRES_DB
+          value: usuarios    #nombre de la bbdd, ahora mismo esta mydatabase 
         volumeMounts:
-        - name: mysql-storage
-          mountPath: /var/lib/mysql
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
       volumes:
-      - name: mysql-storage
+      - name: postgres-storage
         persistentVolumeClaim:
-          claimName: mysql-pvc
+          claimName: postgres-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -39,6 +41,6 @@ spec:
     app: user-bbdd
   ports:
     - protocol: TCP
-      port: 3306
-      targetPort: 3306
+      port: 5432
+      targetPort: 5432
   type: ClusterIP
