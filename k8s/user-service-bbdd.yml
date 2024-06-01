@@ -19,11 +19,11 @@ spec:
         - containerPort: 5432
         env:
         - name: POSTGRES_USER
-          value: admin
+          value: "admin"
         - name: POSTGRES_PASSWORD
-          value: admin
+          value: "admin"
         - name: POSTGRES_DB
-          value: usuarios    #nombre de la bbdd, ahora mismo esta mydatabase 
+          value: "mydatabase"
         volumeMounts:
         - name: postgres-storage
           mountPath: /var/lib/postgresql/data

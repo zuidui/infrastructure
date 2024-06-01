@@ -17,6 +17,22 @@ spec:
         image: zuidui/api-gateway-dev:0.0.1-rc05
         ports:
         - containerPort: 8081
+        env:
+        - name: APP_MODULE
+          value: "main:app"
+        - name: APP_PORT
+          value: "8081"
+        - name: APP_HOST
+          value: "0.0.0.0"
+        - name: PYTHONPATH
+          value: "/app/src"
+        volumeMounts:
+        - name: src-volume
+          mountPath: /app/src
+      volumes:
+      - name: src-volume
+        hostPath:
+          path: ./src
 ---
 apiVersion: v1
 kind: Service
