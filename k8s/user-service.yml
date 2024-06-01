@@ -14,24 +14,10 @@ spec:
     spec:
       containers:
       - name: user-service
-        image: zuidui/user-service-dev:0.0.1-rc03
+        image: zuidui/user-service-dev:0.0.1-rc07
         ports:
         - containerPort: 8082
         env:
-        - name: DEV
-          value: "True"
-        - name: DEBUG
-          value: "True"
-        - name: DOCKERHUB_USERNAME
-          value: "zuidui"
-        - name: AUTHOR
-          value: "mlorente@duck.com"
-        - name: LICENSE
-          value: "MIT"
-        - name: IMAGE_NAME
-          value: "user-service"
-        - name: IMAGE_VERSION
-          value: "0.0.1"
         - name: APP_MODULE
           value: "main:app"
         - name: APP_PORT
@@ -42,40 +28,6 @@ spec:
           value: "User service for MCA project"
         - name: API_PREFIX
           value: "/api/v1"
-        - name: SECRET_KEY
-          value: "secret"
-        - name: DOC_URL
-          value: "/docs"
-        - name: DEPENDENCIES
-          value: "fastapi uvicorn ruff httpx pydantic pydantic_settings pytest pytest-xdist asyncpg databases pylint mypy doublex schema strawberry-graphql[fastapi] pytest-asyncio sqlalchemy pika"
-        - name: DB_CONTAINER_NAME
-          value: "user-db"
-        - name: DB_IMAGE_NAME
-          value: "postgres"
-        - name: DB_IMAGE_VERSION
-          value: "13"
-        - name: DB_PORT
-          value: "5432"
-        - name: DB_HOST
-          value: "db"
-        - name: DB_USER
-          value: "admin"
-        - name: DB_PASSWORD
-          value: "admin"
-        - name: DB_NAME
-          value: "mydatabase"
-        - name: PGADMIN_CONTAINER_NAME
-          value: "pgadmin"
-        - name: PGADMIN_IMAGE_NAME
-          value: "dpage/pgadmin4"
-        - name: PGADMIN_IMAGE_VERSION
-          value: "latest"
-        - name: PGADMIN_PORT
-          value: "5051"
-        - name: PGADMIN_DEFAULT_EMAIL
-          value: "admin@admin.com"
-        - name: PGADMIN_DEFAULT_PASSWORD
-          value: "admin"
         - name: API_GATEWAY_HOST
           value: "api-gateway"
         - name: API_GATEWAY_PORT
