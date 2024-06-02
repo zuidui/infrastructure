@@ -18,26 +18,7 @@ spec:
         ports:
         - containerPort: 8082
         env:
-        - name: APP_MODULE
-          value: "main:app"
-        - name: APP_PORT
-          value: "8082"
-        - name: APP_HOST
-          value: "0.0.0.0"
-        - name: APP_DESCRIPTION
-          value: "User service for MCA project"
-        - name: API_PREFIX
-          value: "/api/v1"
-        - name: API_GATEWAY_HOST
-          value: "api-gateway"
-        - name: API_GATEWAY_PORT
-          value: "8081"
-        - name: BROKER_HOST
-          value: "events-store"
-        - name: BROKER_PORT
-          value: "5672"
-        - name: QUEUE_NAME
-          value: "user-events"
+        
         - name: PYTHONPATH
           value: "/app/src"
 ---
