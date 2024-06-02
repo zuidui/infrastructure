@@ -26,13 +26,7 @@ spec:
           value: "0.0.0.0"
         - name: PYTHONPATH
           value: "/app/src"
-        volumeMounts:
-        - name: src-volume
-          mountPath: /app/src
-      volumes:
-      - name: src-volume
-        hostPath:
-          path: ./src
+
 ---
 apiVersion: v1
 kind: Service
