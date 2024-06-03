@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-users
+  namespace: zuidui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-users
+  template:
+    metadata:
+      labels:
+        app: db-users
+    spec:
+      containers:
+        - name: db-users
+          image: postgres:13
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi            
+          env:
+            - name: POSTGRES_USER
+              value: "admin"
+            - name: POSTGRES_PASSWORD
+              value: "admin"
+            - name: POSTGRES_DB
+              value: "mydatabase"
+          volumeMounts:
+            - name: users-persistent-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: users-persistent-storage
+          persistentVolumeClaim:
+            claimName: users-postgres-pvc
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-users
+  namespace: zuidui
+spec:
+  selector:
+    app: db-users
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+  namespace: zuidui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin
+          image: dpage/pgadmin4:latest
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: "admin@admin.com"
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: "admin"
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+      imagePullSecrets:
+        - name: regcred
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin
+  namespace: zuidui
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 5051
+      targetPort: 80
+  selector:
+    app: pgadmin
