@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: zuidui
+  #namespace: zuidui
 spec:
   replicas: 1
   selector:
@@ -15,12 +15,9 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: zuidui/frontend-dev:0.0.1-latest
+          image: zuidui/frontend-dev:0.0.1-rc24
           ports:
             - containerPort: 80              
-          env:
-            - name: API_GATEWAY_URL
-              value: "http://api-gateway:8081/api/v1"
           resources:
             limits:
               cpu: "0.5"
@@ -31,7 +28,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend
-  namespace: zuidui
+  #namespace: zuidui
 spec:
   type: ClusterIP
   ports:

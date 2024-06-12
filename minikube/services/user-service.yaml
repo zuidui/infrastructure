@@ -16,7 +16,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: user-service
-          image: zuidui/user-service-dev:latest
+          image: zuidui/user-service-dev:0.0.1-latest
           ports:
           - containerPort: 8082
           env:
