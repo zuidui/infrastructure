@@ -4,7 +4,7 @@ metadata:
   name: api-gateway
   namespace: zuidui
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: api-gateway
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: zuidui/api-gateway:latest
+          image: zuidui/api-gateway-dev:latest
           env:
             - name: APP_PORT
               value: "8081"
@@ -25,6 +25,18 @@ spec:
               value: "main:app"
             - name: PYTHONPATH
               value: "/app/src"
+            - name: DEBUG_PORT
+              value: "5678"
+            - name: CACHE_HOST
+              value: "redis"
+            - name: CACHE_PORT
+              value: "6379"
+            - name: CACHE_DB 
+              value: "0"
+            - name: TEAM_SERVICE_HOST
+              value: "team-service"
+            - name: TEAM_SERVICE_PORT
+              value: "8082"  
           ports:
             - containerPort: 8081
           resources:

@@ -16,7 +16,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: team-service
-          image: zuidui/team-service-dev:0.0.1-rc07
+          image: zuidui/team-service-dev:0.0.1-rc08
           ports:
           - containerPort: 8082
           env:
