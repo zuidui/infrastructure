@@ -1,0 +1,5 @@
+Get the application URL by running these commands:
+  http//:{{ .Values.ingress.host }}
+
+check the api service is active:
+  http://{{ .Values.ingress.host }}/api/health

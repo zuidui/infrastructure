@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.teamService.volumes.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.teamService.volumes.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.teamService.volumes.name }}
+    spec:
+      containers:
+        - name: {{ .Values.teamService.volumes.name }}
+          image: {{ .Values.teamService.volumes.image }}
+          ports:
+            - containerPort: {{ .Values.teamService.volumes.imcontainerPortage }}           
+          env:
+            {{- toYaml .Values.teamService.volumes.envVars | nindent 12 }}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi 
+          volumeMounts:
+            - name: {{ .Values.teamService.volumes.volumeMounts }}
+              mountPath: {{ .Values.teamService.volumes.mountPath }}
+      volumes:
+        - name: {{ .Values.teamService.volumes.volumeMounts }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.teamService.volumes.pvcName }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.teamService.volumes.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.teamService.volumes.name }}
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: {{ .Values.teamService.volumes.service.port }}
+      targetPort: {{ .Values.teamService.volumes.service.targetPort }}
+  type: {{ .Values.teamService.volumes.service.type }}

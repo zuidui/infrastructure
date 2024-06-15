@@ -1,0 +1,103 @@
+# Default values for zuidui.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+namespace: zuidui
+###############
+####ingress####
+###############
+ingress:
+  name: ingress-controller
+  host: tfm-local #a7b0ec83f448b4c7199bf641a3f9148f-381273770.us-east-1.elb.amazonaws.com
+  pathType: Prefix 
+  portFrontend: 8080
+  portApiGateway: 8081
+############
+##frontend## 
+############
+frontend:
+  name: frontend
+  replicaCount: 2
+
+  image:
+    repository: zuidui/frontend-dev
+    tag: 0.0.1-rc31
+
+  containerPort: 80
+
+  service:
+    type: ClusterIP
+    port: 8080
+###############
+##api-gateway##
+###############
+apiGateway:
+  name: api-gateway
+  replicaCount: 1
+  image:
+    repository: zuidui/api-gateway-dev
+    tag: latest
+
+  containerPort: 8081
+
+  service:
+    type: ClusterIP
+    port: 8081
+
+  envVars:
+    - name: APP_PORT
+      value: "8081"
+    - name: APP_HOST
+      value: "0.0.0.0"
+    - name: APP_MODULE
+      value: "main:app"
+    - name: PYTHONPATH
+      value: "/app/src"
+    - name: DEBUG_PORT
+      value: "5678"
+    - name: CACHE_HOST
+      value: "redis"
+    - name: CACHE_PORT
+      value: "6379"
+    - name: CACHE_DB 
+      value: "0"
+    - name: TEAM_SERVICE_HOST
+      value: "team-service"
+    - name: TEAM_SERVICE_PORT
+      value: "8082"  
+    - name: FRONTEND_SERVICE_HOST
+      value: "frontend"
+    - name: FRONTEND_SERVICE_PORT
+      value: "8080"
+    - name: RATING_SERVICE_HOST
+      value: "rating-service"
+    - name: RATING_SERVICE_PORT
+      value: "8083"
+################s
+##team-service##
+################
+teamService: 
+  
+  volumes:
+    service:
+      type: ClusterIP
+      port: 5433
+      targetPort: 5432
+    envVars:
+      - name: POSTGRES_USER
+        value: "admin"
+      - name: POSTGRES_PASSWORD
+        value: "admin"
+      - name: POSTGRES_DB
+        value: "team-database"   
+    #volumen
+    name: team-db
+    image: postgres:13
+    containerPort: 5432
+    volumeMounts: teams-persistent-storage
+    mountPath: /var/lib/postgresql/data
+    #PVC and PV
+    pvcName: teams-postgres-pvc
+    pvName: teams-postgres-pv
+    hostPath: "/mnt/data/postgres"
+    storageClassName: ebs-sc
+    storage: 1Gi
