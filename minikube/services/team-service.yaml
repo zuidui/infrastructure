@@ -32,6 +32,10 @@ spec:
              value: "5433"
            - name: DEBUG_PORT
              value: "5679"
+           - name: API_GATEWAY_HOST
+             value: "api-gateway"
+           - name: API_GATEWAY_PORT
+             value: "8081"
           ## - name: BROKER_HOST
           ##   value: "events-store"
           ## - name: BROKER_PORT

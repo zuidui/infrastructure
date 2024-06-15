@@ -37,6 +37,14 @@ spec:
               value: "team-service"
             - name: TEAM_SERVICE_PORT
               value: "8082"  
+            - name: FRONTEND_SERVICE_HOST
+              value: "frontend"
+            - name: FRONTEND_SERVICE_PORT
+              value: "8080"
+            - name: RATING_SERVICE_HOST
+              value: "rating-service"
+            - name: RATING_SERVICE_PORT
+              value: "8083"
           ports:
             - containerPort: 8081
           resources:
