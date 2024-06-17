@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: team-db
+  namespace: zuidui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: team-db
+  template:
+    metadata:
+      labels:
+        app: team-db
+    spec:
+      containers:
+        - name: team-db
+          image: postgres:13
+          ports:
+            - containerPort: 5432           
+          env:
+            - name: POSTGRES_USER
+              value: "admin"
+            - name: POSTGRES_PASSWORD
+              value: "admin"
+            - name: POSTGRES_DB
+              value: "team-database"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi 
+          volumeMounts:
+            - name: team-persistent-storage
+              mountPath: /var/lib/postgresql/data3
+      volumes:
+        - name: team-persistent-storage
+          persistentVolumeClaim:
+            claimName: team-postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: team-db
+  namespace: zuidui
+spec:
+  selector:
+    app: team-db
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5433
+      targetPort: 5432
+  type: ClusterIP

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: zuidui/api-gateway-dev:0.0.2-rc00
+          image: zuidui/api-gateway-dev:latest
           env:
             - name: APP_PORT
               value: "8081"
@@ -27,12 +27,6 @@ spec:
               value: "/app/src"
             - name: DEBUG_PORT
               value: "5678"
-            - name: CACHE_HOST
-              value: "redis"
-            - name: CACHE_PORT
-              value: "6379"
-            - name: CACHE_DB 
-              value: "0"
             - name: TEAM_SERVICE_HOST
               value: "team-service"
             - name: TEAM_SERVICE_PORT
@@ -45,6 +39,22 @@ spec:
               value: "rating-service"
             - name: RATING_SERVICE_PORT
               value: "8083"
+            - name: BROKER_HOST
+              value: "events-store"
+            - name: BROKER_PORT
+              value: "5672"
+            - name: BROKER_HEARTBEAT
+              value: "60"
+            - name: BROKER_CONNECTION_ATTEMPTS
+              value: "5"
+            - name: BROKER_CONNECTION_TIMEOUT
+              value: "300"
+            - name: BROKER_ATTEMPT_DELAY
+              value: "5"
+            - name: QUEUE_NAME
+              value: "events-queue"
+            - name: EXCHANGE_NAME
+              value: "events-exchange"
           ports:
             - containerPort: 8081
           resources:

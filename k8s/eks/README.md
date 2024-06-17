@@ -1,4 +1,4 @@
-# Infraestructure Local
+# Infraestructure EKS
 
 ## Deployment
 
@@ -24,7 +24,10 @@ Apply all the infrastructure resources and wait until everything is up:
 
 ```sh
 kubectl apply -f utils/
+kubectl apply -f configMaps/
 kubectl apply -f ingress/
+kubectl apply -f volumes/
+kubectl apply -f services/resources
 kubectl apply -f services/
 ```
 

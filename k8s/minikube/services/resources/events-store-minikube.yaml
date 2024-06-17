@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-store
+  namespace: zuidui
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: events-store
+  template:
+    metadata:
+      labels:
+        app: events-store
+    spec:
+      containers:
+      - name: events-store
+        image: rabbitmq:3.11-management
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        env:
+        - name: RABBITMQ_DEFAULT_USER
+          value: guest
+        - name: RABBITMQ_DEFAULT_PASS
+          value: guest
+        resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi 
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-store
+  namespace: zuidui
+  labels:
+    app: events-store
+spec:
+  selector:
+    app: events-store
+  ports:
+  - port: 5672
+    targetPort: 5672
+    name: rabbit-port-5672
+    protocol: TCP
+  type: ClusterIP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: events-store-management
+  namespace: zuidui
+  labels:
+    app: events-store-management
+spec:
+  selector:
+    app: events-store
+  ports:
+  - port: 15672
+    targetPort: 15672
+    nodePort: 30002
+    name: rabbit-port-15672
+    protocol: TCP
+  type: NodePort

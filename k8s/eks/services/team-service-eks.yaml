@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: raiting-service
+  name: team-service
   namespace: zuidui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: raiting-service
+      app: team-service
   template:
     metadata:
       labels:
-        app: raiting-service
+        app: team-service
     spec:
       restartPolicy: Always
       containers:
-        - name: raiting-service
-          image: zuidui/raiting-service-dev:0.0.2-rc00
+        - name: team-service
+          image: zuidui/team-service-dev:latest
           ports:
           - containerPort: 8082
           env:
@@ -27,9 +27,9 @@ spec:
            - name: APP_MODULE
              value: "main:app"
            - name: DB_HOST
-             value: "db"
+             value: "team-db"
            - name: DB_PORT
-             value: "5432"
+             value: "5433"
            - name: DEBUG_PORT
              value: "5679"
            - name: API_GATEWAY_HOST
@@ -49,7 +49,7 @@ spec:
           ## - name: BROKER_CONNECTION_TIMEOUT
           ##   value: "300"
           ## - name: QUEUE_NAME
-          ##   value: "user-events"
+          ##   value: "events-queue"
           resources:
             limits:
               cpu: "1"

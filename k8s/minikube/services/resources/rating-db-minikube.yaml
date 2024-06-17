@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rating-db
+  namespace: zuidui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rating-db
+  template:
+    metadata:
+      labels:
+        app: rating-db
+    spec:
+      containers:
+        - name: rating-db
+          image: postgres:13
+          ports:
+            - containerPort: 5432           
+          env:
+            - name: POSTGRES_USER
+              value: "admin"
+            - name: POSTGRES_PASSWORD
+              value: "admin"
+            - name: POSTGRES_DB
+              value: "rating-database"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi 
+          volumeMounts:
+            - name: rating-persistent-storage
+              mountPath: /var/lib/postgresql/data3
+      volumes:
+        - name: rating-persistent-storage
+          persistentVolumeClaim:
+            claimName: rating-postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rating-db
+  namespace: zuidui
+spec:
+  selector:
+    app: rating-db
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5434
+      targetPort: 5432
+  type: ClusterIP

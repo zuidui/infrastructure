@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: tfm-local
+  - host: a9818d7ad55d04c29b497ce52418be8d-688892677.us-east-1.elb.amazonaws.com
     http:
       paths:
       - path: /(.*)
@@ -19,13 +19,6 @@ spec:
             port:
               number: 8080
       - path: /api/(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: api-gateway
-            port:
-              number: 8081
-      - path: /api/v1/(.*)
         pathType: Prefix
         backend:
           service:

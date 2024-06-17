@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rating-db-config
+  namespace: zuidui
+data:  
+  POSTGRES_USER: "admin"
+  POSTGRES_PASSWORD: "admin"
+  POSTGRES_DB: "rating-database"

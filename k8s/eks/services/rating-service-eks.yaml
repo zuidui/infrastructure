@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rating-service
+  namespace: zuidui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rating-service
+  template:
+    metadata:
+      labels:
+        app: rating-service
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: rating-service
+          image: zuidui/rating-service-dev:latest
+          ports:
+          - containerPort: 8083 
+          envFrom:
+            - configMapRef:
+                name: rating-config
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rating-service
+  namespace: zuidui
+spec:
+  selector:
+    app: rating-service
+  ports:
+  - protocol: TCP
+    port: 8083
+    targetPort: 8083
+  type: ClusterIP
+
+
+

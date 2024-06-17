@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rating-service
+  namespace: zuidui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rating-service
+  template:
+    metadata:
+      labels:
+        app: rating-service
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: rating-service
+          image: zuidui/rating-service-dev:latest
+          ports:
+          - containerPort: 8083
+          env:
+           - name: APP_PORT
+             value: '8083'
+           - name: APP_HOST
+             value: "0.0.0.0"
+           - name: DEBUG_PORT
+             value: "5680"             
+           - name: APP_MODULE
+             value: "main:app"
+           - name: DB_HOST_PORT
+             value: "5434"             
+           - name: DB_PORT
+             value: "5434"
+           - name: DB_HOST
+             value: "rating-db"
+           - name: DB_USER
+             value: "admin"
+           - name: DB_PASSWORD
+             value: "admin"
+           - name: DB_NAME
+             value: "rating-database"             
+           - name: API_GATEWAY_HOST
+             value: "api-gateway"
+           - name: API_GATEWAY_PORT
+             value: "8081"
+           - name: BROKER_HOST
+             value: "events-store"
+           - name: BROKER_PORT
+             value: "5672"
+           - name: BROKER_HEARTBEAT
+             value: "60"
+           - name: BROKER_CONNECTION_ATTEMPTS
+             value: "5"
+           - name: BROKER_CONNECTION_TIMEOUT
+             value: "300"
+           - name: BROKER_ATTEMPT_DELAY
+             value: "5"
+           - name: QUEUE_NAME
+             value: "events-queue"
+           - name: EXCHANGE_NAME
+             value: "events-exchange"
+          resources:
+            limits:
+              cpu: "1"
+              memory: "512Mi"
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+          volumeMounts:
+            - name: rating-persistent-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: rating-persistent-storage
+          persistentVolumeClaim:
+            claimName: rating-postgres-pvc              
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rating-service
+  namespace: zuidui
+spec:
+  selector:
+    app: rating-service
+  ports:
+  - protocol: TCP
+    port: 8083
+    targetPort: 8083
+  type: ClusterIP
+
+
+
