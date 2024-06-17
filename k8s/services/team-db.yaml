@@ -34,7 +34,7 @@ spec:
               memory: 256Mi 
           volumeMounts:
             - name: teams-persistent-storage
-              mountPath: /var/lib/postgresql/data2
+              mountPath: /var/lib/postgresql/data3
       volumes:
         - name: teams-persistent-storage
           persistentVolumeClaim:

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: zuidui/api-gateway-dev:latest
+          image: zuidui/api-gateway-dev:0.0.2-rc00
           env:
             - name: APP_PORT
               value: "8081"

@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: a9818d7ad55d04c29b497ce52418be8d-688892677.us-east-1.elb.amazonaws.com
+  - host: tfm-local
     http:
       paths:
       - path: /(.*)

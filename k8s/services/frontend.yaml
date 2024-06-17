@@ -15,13 +15,16 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: zuidui/frontend-dev:0.0.1-rc31 #0.0.1-rc30, esta imagen tiene el /api/api y funka
+          image: zuidui/frontend-dev:latest #0.0.1-rc30, esta imagen tiene el /api/api y funka
           ports:
             - containerPort: 80              
           resources:
             limits:
               cpu: "0.5"
               memory: "512Mi"
+          envFrom:
+            - configMapRef:
+                name: frontend-config 
 
 ---
 apiVersion: v1

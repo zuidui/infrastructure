@@ -8,7 +8,6 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: standard 
   hostPath:
     path: "/mnt/data/postgres"
 
@@ -20,10 +19,8 @@ metadata:
   name: teams-postgres-pvc
   namespace: zuidui
 spec:
-  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-  storageClassName: gp2
