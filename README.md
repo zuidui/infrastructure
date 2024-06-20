@@ -37,7 +37,7 @@ Default output format: json
 # Working with different account on aws cli
 aws configure --profile jg1938112
 ```
-Los archivos deberían verse algo así:
+the files should look like the following:
 
 ~/.aws/config:     
   
