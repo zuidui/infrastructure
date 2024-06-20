@@ -180,13 +180,13 @@ Any HTTP request will be handled properly. For example:
 ```sh
 curl --location --request GET 'http://tfm-local/api/v1/users
 ```
+# Infraestructure EKS
 
-# nginx ingress on EKS
-
-deploy ingress controller
 ```sh
-make enable_ingress_EKS
+make start_eks
+make deploy_app_eks
 ```
+
 
 # ArgoCD Image Updater
 ```sh
