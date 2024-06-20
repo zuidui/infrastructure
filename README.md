@@ -1,7 +1,12 @@
-# Infraestructure As Code - IaC :rocket:
+# Infraestructure
 
-in this repository, we work with infrastructure as code on a kubernetes cluster on AWS, we use two methods: terraform and cloudformation.
+![GitHub](https://img.shields.io/github/license/zuidui/api-gateway)
 
+## Overview
+
+In this repository, we work with infrastructure as code on a kubernetes cluster on AWS, we use two methods: terraform and cloudformation and everything related to kubernetes deployment, helm and continuous deployment.
+
+### Infraestructure As Code - IaC :rocket:
 _Terraform_ is a standard language to work with infrastructure as code and standardize everything, although we will use our own modules to interact with AWS.
 
 _CloudFormation_ on the other hand is proprietary to AWS and allows us to build infrastructure by applying different stacks within AWS.
