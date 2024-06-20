@@ -36,17 +36,26 @@ install_argocd_rollout:
 	kubectl delete -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml
 	kubectl delete namespace argo-rollouts
 	@echo "Delete argocd rollout namespace manually when objects are finalized"
-deploy_app:
+deploy_app_minikube:
 	kubectl apply -f k8s/minikube/utils/
 	kubectl apply -f k8s/minikube/ingress/
 	kubectl apply -f k8s/minikube/volumes/
 	kubectl apply -f k8s/minikube/services/resources
 	kubectl apply -f k8s/minikube/services/
+
+deploy_app_eks:
+	kubectl apply -f k8s/eks/utils/
+	kubectl apply -f k8s/eks/ingress/
+	kubectl apply -f k8s/eks/volumes/
+	kubectl apply -f k8s/eks/services/resources
+	kubectl apply -f k8s/eks/services/
 #EKS
 enable_ingress_EKS:
+	kubectl create namespace zuidui
 	kubectl create namespace ingress-nginx
 	helm install my-nginx-controller ingress-nginx/ingress-nginx --namespace ingress-nginx
 # Tareas
 start: start_cluster enable_ingress install_argocd install_argocd_rollout
 
+start_eks: enable_ingress_EKS install_argocd_rollout install_argocd
 #deploy: build-image load-image deploy-app expose-app apply-ingress
