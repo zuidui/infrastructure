@@ -2,17 +2,17 @@
 architecture as code with terraform to AWS services 
 
 ```sh
-terraform fmt
+terraform fmt      # format everu files .tf
 
-terraform login   # yes y meto la pass, para repositar en terraform registry
+terraform login    # yes and enter pass, to up a repository in terraform registry
 
-terraform init    # descarga todas las dependencias y modulos necesarios 
+terraform init     # download all dependencies and modules 
 
 terraform validate
 
-terraform plan
+terraform plan     #show deploy plan with all resources 
 
-terraform apply -auto-approve
+terraform apply -auto-approve # deploy in cloud provider
 
 # Terraform Destroy
 terraform apply -destroy -auto-approve

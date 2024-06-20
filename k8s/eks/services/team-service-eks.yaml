@@ -16,40 +16,12 @@ spec:
       restartPolicy: Always
       containers:
         - name: team-service
-          image: zuidui/team-service-dev:latest
+          image: zuidui/team-service:latest
           ports:
           - containerPort: 8082
-          env:
-           - name: APP_PORT
-             value: '8082'
-           - name: APP_HOST
-             value: "0.0.0.0"
-           - name: APP_MODULE
-             value: "main:app"
-           - name: DB_HOST
-             value: "team-db"
-           - name: DB_PORT
-             value: "5433"
-           - name: DEBUG_PORT
-             value: "5679"
-           - name: API_GATEWAY_HOST
-             value: "api-gateway"
-           - name: API_GATEWAY_PORT
-             value: "8081"
-          ## - name: BROKER_HOST
-          ##   value: "events-store"
-          ## - name: BROKER_PORT
-          ##   value: "5672"
-          ## - name: BROKER_HEARTBEAT
-          ##   value: "60"
-          ## - name: BROKER_CONNECTION_ATTEMPTS
-          ##   value: "5"
-          ## - name: BROKER_ATTEMPT_DELAY
-          ##   value: "5"
-          ## - name: BROKER_CONNECTION_TIMEOUT
-          ##   value: "300"
-          ## - name: QUEUE_NAME
-          ##   value: "events-queue"
+          envFrom:
+            - configMapRef:
+                name: team-config
           resources:
             limits:
               cpu: "1"

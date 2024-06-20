@@ -16,7 +16,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: rating-service
-          image: zuidui/rating-service-dev:latest
+          image: zuidui/rating-service:latest
           ports:
           - containerPort: 8083 
           envFrom:

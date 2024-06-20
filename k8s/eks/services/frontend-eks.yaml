@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: zuidui/frontend-dev:latest #0.0.1-rc30, esta imagen tiene el /api/api y funka
+          image: zuidui/frontend:latest #0.0.1-rc30, esta imagen tiene el /api/api y funka
           ports:
             - containerPort: 80              
           resources:
